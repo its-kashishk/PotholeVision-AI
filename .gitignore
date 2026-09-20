@@ -1,0 +1,22 @@
+node_modules/
+.env
+.DS_Store
+*.log
+dist/
+build/
+.env.local
+.env.production
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# ML virtual environment
+ml/.venv/
+
+# Downloaded model weights
+ml/model/*.pt
+ml/model/*.onnx
+
+# Temporary ML files
+*.img

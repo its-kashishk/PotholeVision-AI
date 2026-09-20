@@ -1,0 +1,11 @@
+# PotholeVision AI - road-damage inference dependencies
+#
+# torch is a transitive dependency of ultralytics. On Linux the default PyPI
+# wheel bundles CUDA libraries (multi-GB download) even for CPU-only use.
+# For a much smaller CPU-only install, run this FIRST:
+#   pip install torch --index-url https://download.pytorch.org/whl/cpu
+# then install the rest below.
+
+ultralytics==8.4.157
+pillow==12.1.1
+numpy==2.4.4
