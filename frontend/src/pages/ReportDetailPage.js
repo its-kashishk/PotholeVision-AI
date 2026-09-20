@@ -230,6 +230,25 @@ export default function ReportDetailPage() {
                     background: `linear-gradient(90deg, ${sevColor}99, ${sevColor})`
                   }} />
                 </div>
+                <div style={{ marginTop: 7, fontSize: 11, color: 'var(--text-muted)' }}>
+                  Level: <strong style={{ color: sevColor, textTransform: 'uppercase' }}>{ai.severityLevel || 'low'}</strong>
+                </div>
+              </div>
+
+              {/* Derived severity explanation */}
+              <div style={{ background: 'var(--bg-tertiary)', borderRadius: 10, padding: 12, marginBottom: 16 }}>
+                <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 6 }}>
+                  Why this level?
+                </div>
+                <p style={{ fontSize: 12.5, lineHeight: 1.55, color: 'var(--text-secondary)', margin: 0 }}>
+                  {ai.severityExplanation || (ai.detectedIssues?.length === 0
+                    ? 'Automated analysis did not detect road damage meeting the configured confidence threshold. This does not guarantee that the road is free of damage.'
+                    : 'Severity is derived from the detected road-damage evidence.')}
+                </p>
+              </div>
+
+              <div style={{ marginBottom: 16, padding: '9px 11px', border: '1px solid var(--border-subtle)', borderRadius: 8, fontSize: 11, color: 'var(--text-muted)' }}>
+                Severity is a derived assessment based on detected damage evidence. It is not a direct prediction from the YOLO model.
               </div>
 
               {/* Detected Issues */}

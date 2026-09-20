@@ -32,6 +32,7 @@ const reportSchema = new mongoose.Schema({
     primaryIssue: { type: String, default: 'unknown' },
     severityScore: { type: Number, min: 0, max: 100 },
     severityLevel: { type: String, enum: ['low', 'medium', 'high', 'critical'], default: 'medium' },
+    severityExplanation: { type: String, default: '' },
     overallConfidence: { type: Number, min: 0, max: 1, default: 0 },
     aiExplanation: { type: String, default: '' },
     safetyPrecautions: [String],

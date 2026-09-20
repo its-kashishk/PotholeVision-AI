@@ -320,7 +320,13 @@ potholevision/
 │   │   ├── sustainability.js    # SDG metrics
 │   │   └── pdf.js               # PDF generation
 │   ├── services/
-│   │   └── aiService.js         # YOLOv8 detection + Groq LLaMA3 integration
+│   │   ├── aiService.js         # YOLOv8 detection + Groq LLaMA3 integration
+│   │   ├── roadDamageDetector.js # Node → Python inference bridge
+│   │   └── severityService.js   # Transparent derived severity scoring
+│   ├── tests/
+│   │   ├── detector.integration.test.js
+│   │   ├── reports.route.test.js
+│   │   └── severityService.test.js
 │   ├── seed.js                  # Database seeder
 │   ├── server.js                # Express app entry
 │   ├── .env.example             # Environment template
@@ -383,10 +389,15 @@ User uploads image
   - Confidence Scores
        │
        ▼
-[Severity Placeholder]
-  - TEMPORARY: medium if detected, low if not
-  - Not model output
-  - Real severity modeling planned for later phase
+[Transparent Severity Scoring]
+  - Derived from detection evidence
+  - Damage coverage
+  - Detection count
+  - Damage type
+  - Highest detection confidence
+  - Score: 0–100
+  - Level: Low / Medium / High
+  - Heuristic, not a trained severity model
        │
        ▼
 [Groq-hosted Llama 3 8B]
@@ -410,6 +421,25 @@ User uploads image
   - Fuel savings
   - Accident risk score
 ```
+
+---
+
+## 📊 Derived Severity Assessment
+
+PotholeVision does not claim that YOLOv8s directly predicts severity. After detection, the application derives a **0–100 severity score** from observable detection evidence:
+
+- detected damage coverage from normalized bounding-box area — 40 points
+- number of detections — 25 points
+- detected damage type — 20 points
+- highest detection confidence — 15 points
+
+Severity levels are deterministic application heuristics:
+
+- **0–34:** Low
+- **35–64:** Medium
+- **65–100:** High
+
+The coverage saturation point and thresholds are application choices, not scientifically validated standards. Detection confidence represents evidence strength and is not itself a severity percentage. The assessment is not a trained severity model.
 
 ---
 

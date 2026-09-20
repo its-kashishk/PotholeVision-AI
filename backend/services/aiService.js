@@ -1,5 +1,6 @@
 const fetch = require('node-fetch');
 const { detectRoadDamage } = require('./roadDamageDetector');
+const { calculateSeverity } = require('./severityService');
 
 // ── Groq API Config ───────────────────────────────────────
 const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions';
@@ -47,16 +48,16 @@ const analyzeRoadImage = async (imageUrl) => {
   const primaryIssue = detectedIssues.length > 0 ? detectedIssues[0].type : 'unknown';
   const overallConfidence = detectedIssues.length > 0 ? detectedIssues[0].confidence : 0;
 
-  // TEMPORARY placeholder — the model does not predict severity (see ml/README.md).
-  // Proper severity modeling is planned for Phase 3.
-  const severityScore = detectedIssues.length > 0 ? 50 : 0;
-  const severityLevel = detectedIssues.length > 0 ? 'medium' : 'low';
+  // YOLO detects damage, not severity. Severity is derived separately from
+  // the observable detection evidence using a transparent deterministic heuristic.
+  const severity = calculateSeverity(detectedIssues);
 
   return {
     detectedIssues,
     primaryIssue,
-    severityScore,
-    severityLevel,
+    severityScore: severity.score,
+    severityLevel: severity.level,
+    severityExplanation: severity.explanation,
     overallConfidence
   };
 };
@@ -155,7 +156,7 @@ Environmental Impact: Vehicles avoid potholes by braking and re-accelerating, in
 
 // ── Generate full AI explanation for a report ─────────────
 const generateRoadExplanation = async (analysisResult, description = '') => {
-  const { primaryIssue, severityLevel, severityScore, detectedIssues } = analysisResult;
+  const { primaryIssue, severityLevel, severityScore, severityExplanation, detectedIssues } = analysisResult;
 
   // No qualifying detection: don't ask the LLM to explain damage that was never
   // found, and don't fall back to a generic "pothole" message — that would
@@ -179,13 +180,19 @@ Respond in plain text, no markdown formatting.`;
   const prompt = `Analyse this road damage detection report:
 - Primary Issue Detected: ${primaryIssue}
 - All Detected Issues: ${issuesList}
-- Severity Level: ${severityLevel.toUpperCase()} (Score: ${severityScore}/100)
+- Derived Severity Level: ${severityLevel.toUpperCase()}
+- Derived Severity Score: ${severityScore}/100
+- Severity Basis: ${severityExplanation}
 - Reporter Description: ${description || 'Not provided'}
+
+The severity score and level were calculated by the application from YOLO detection evidence. Do not modify, reinterpret, replace, or recalculate them. Detection confidence is evidence strength, not severity.
 
 Please provide:
 1. A 2–3 sentence explanation of the detected damage and its likely cause
 2. Exactly 4 safety precautions for road users until repairs are done
 3. One sentence on environmental/sustainability impact
+
+Do not claim that YOLO directly predicts severity. Do not invent accident probability, repair cost, vehicle damage, structural integrity, or unsupported statistics.
 
 Keep it brief and practical.`;
 
