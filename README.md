@@ -9,18 +9,19 @@
 
 ## 📋 Table of Contents
 1. [Project Overview](#-project-overview)
-2. [Features](#-features)
-3. [Tech Stack](#-tech-stack)
-4. [Prerequisites](#-prerequisites)
-5. [Installation & Setup](#-installation--setup)
-6. [Environment Variables](#-environment-variables)
-7. [Running the Project](#-running-the-project)
-8. [Demo Accounts](#-demo-accounts)
-9. [API Endpoints](#-api-endpoints)
-10. [Project Structure](#-project-structure)
-11. [AI Architecture](#-ai-architecture)
-12. [Responsible AI](#-responsible-ai)
-13. [Deployment](#-deployment)
+2. [Demo & Screenshots](#-demo--screenshots)
+3. [Features](#-features)
+4. [Tech Stack](#-tech-stack)
+5. [Prerequisites](#-prerequisites)
+6. [Installation & Setup](#-installation--setup)
+7. [Environment Variables](#-environment-variables)
+8. [Running the Project](#-running-the-project)
+9. [Demo Accounts](#-demo-accounts)
+10. [API Endpoints](#-api-endpoints)
+11. [Project Structure](#-project-structure)
+12. [AI Architecture](#-ai-architecture)
+13. [Responsible AI](#-responsible-ai)
+14. [Deployment](#-deployment)
 
 ---
 
@@ -31,6 +32,38 @@ PotholeVision AI is a full-stack web application that empowers citizens to repor
 **Problem:** Poor road conditions cause 30%+ of road accidents in India, contributing to fuel wastage and increased carbon emissions.
 
 **Solution:** AI-driven citizen reporting platform with automated road-damage detection, interactive hazard maps, municipality dashboards, and sustainability impact tracking.
+
+---
+
+## 🎬 Demo & Screenshots
+
+### Demo Video
+
+[▶️ Watch the PotholeVision AI Demo](https://drive.google.com/file/d/1_hfRyKZxiUY-bKCoa_ko1RbaD8urIgch/view?usp=sharing)
+
+The demo shows the complete workflow: road-image upload → YOLOv8 road-damage detection → bounding boxes and confidence scores → evidence-based severity assessment → AI-generated road-safety explanation.
+
+### Screenshots
+
+#### 1. Road Damage Detection & Severity
+
+![PotholeVision AI - Detection and Severity](docs/screenshots/PotholeVisionAI_Main_Detection_Severity.png)
+
+Shows YOLOv8 road-damage detections, bounding boxes, confidence scores, and the derived severity assessment.
+
+#### 2. Detection & Location Details
+
+![PotholeVision AI - Detection and Location](docs/screenshots/PotholeVisionAI_Detection_Location_Details.png)
+
+Shows structured detection details, location information, and the generated hazard report.
+
+#### 3. AI Road Safety Assistant
+
+![PotholeVision AI - AI Assistant](docs/screenshots/PotholeVisionAI_AI_Road_Safety_Assistant.png)
+
+Shows the Groq-hosted Llama 3 road-safety assistant for explanations and safety-related questions.
+
+> **Note:** The severity score is a transparent application-level assessment derived from detected damage evidence. It is not a direct severity prediction from YOLOv8.
 
 ---
 
